@@ -1,0 +1,6 @@
+model_checkpoint_path: "/tmp/mnist_160727_185504/model/export-90100-?????-of-00001"
+all_model_checkpoint_paths: "/tmp/mnist_160727_185504/model/export-50100-?????-of-00001"
+all_model_checkpoint_paths: "/tmp/mnist_160727_185504/model/export-60100-?????-of-00001"
+all_model_checkpoint_paths: "/tmp/mnist_160727_185504/model/export-70100-?????-of-00001"
+all_model_checkpoint_paths: "/tmp/mnist_160727_185504/model/export-80100-?????-of-00001"
+all_model_checkpoint_paths: "/tmp/mnist_160727_185504/model/export-90100-?????-of-00001"
