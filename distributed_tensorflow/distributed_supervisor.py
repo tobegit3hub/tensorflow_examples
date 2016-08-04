@@ -57,7 +57,7 @@ def main(_):
             summary_op = tf.merge_all_summaries()
             init_op = tf.initialize_all_variables()
 
-# Create a "supervisor", which oversees the training process.
+        # Create a "supervisor", which oversees the training process.
         sv = tf.train.Supervisor(is_chief=(FLAGS.task_index == 0),
                                  logdir="/tmp/train_logs",
                                  init_op=init_op,
