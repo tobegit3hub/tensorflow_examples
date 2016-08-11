@@ -71,7 +71,7 @@ def main(_):
         with sv.managed_session(server.target) as sess:
             # Loop until the supervisor shuts down or 1000000 steps have completed.
             step = 0
-            while not sv.should_stop() and step < 1000:
+            while not sv.should_stop() and step < 1000000:
                 # Run a training step asynchronously.
                 # See `tf.train.SyncReplicasOptimizer` for additional details on how to
                 # perform *synchronous* training.
@@ -82,7 +82,7 @@ def main(_):
                                    Y: y})
 
                 loss_value = sess.run(loss, feed_dict={X: x, Y: y})
-                print("Epoch: {}, loss: {}".format(step, loss_value))
+                print("Step: {}, loss: {}".format(step, loss_value))
 
 # Ask for all the services to stop.
         sv.stop()
