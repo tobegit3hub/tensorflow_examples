@@ -52,9 +52,8 @@ for epoch in range(training_epochs):
 
         batch_xs, batch_ys = mnist.train.next_batch(batch_size)
         sess.run(optm, feed_dict={x: batch_xs, y: batch_ys})
-        avg_cost += sess.run(cost,
-                             feed_dict={x: batch_xs,
-                                        y: batch_ys}) / total_batch
+        avg_cost += sess.run(cost, feed_dict={x: batch_xs,
+                                              y: batch_ys}) / total_batch
 
     if epoch % display_step == 0:
         print("Epoch: {}, Cost: {}".format(epoch, avg_cost))

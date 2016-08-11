@@ -53,17 +53,16 @@ optimizer = tf.train.GradientDescentOptimizer(learning_rate=learning_rate)
 global_step = tf.Variable(0, name='global_step', trainable=False)
 train_op = optimizer.minimize(loss, global_step=global_step)
 
-
 init_op = tf.initialize_all_variables()
 
 with tf.Session() as sess:
 
     sess.run(init_op)
 
-    total_batch = int(mnist.train.num_examples/batch_size)
+    total_batch = int(mnist.train.num_examples / batch_size)
     for i in range(total_batch):
         batch_x, batch_y = mnist.train.next_batch(batch_size)
-        _, loss_value = sess.run([train_op, loss], feed_dict={x: batch_x, y: batch_y})
+        _, loss_value = sess.run([train_op, loss],
+                                 feed_dict={x: batch_x,
+                                            y: batch_y})
         print(loss_value)
-
-

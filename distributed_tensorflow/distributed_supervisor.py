@@ -50,8 +50,7 @@ def main(_):
             global_step = tf.Variable(0)
 
             train_op = tf.train.AdagradOptimizer(0.01).minimize(
-                loss,
-                global_step=global_step)
+                loss, global_step=global_step)
 
             saver = tf.train.Saver()
             summary_op = tf.merge_all_summaries()
@@ -76,16 +75,16 @@ def main(_):
                 # See `tf.train.SyncReplicasOptimizer` for additional details on how to
                 # perform *synchronous* training.
                 for (x, y) in zip(train_X, train_Y):
-                    _, step = sess.run(
-                        [train_op, global_step],
-                        feed_dict={X: x,
-                                   Y: y})
+                    _, step = sess.run([train_op, global_step],
+                                       feed_dict={X: x,
+                                                  Y: y})
 
                 loss_value = sess.run(loss, feed_dict={X: x, Y: y})
                 print("Step: {}, loss: {}".format(step, loss_value))
 
-# Ask for all the services to stop.
+        # Ask for all the services to stop.
         sv.stop()
+
 
 if __name__ == "__main__":
     tf.app.run()

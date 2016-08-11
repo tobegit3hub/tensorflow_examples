@@ -22,22 +22,22 @@ b = tf.Variable(tf.zeros([10]), name="bias")
 pred = tf.nn.softmax(tf.matmul(x, W) + b)
 loss = tf.reduce_mean(-tf.reduce_sum(y * tf.log(pred), reduction_indices=1))
 train_op = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss)
-                
+
 init_op = tf.initialize_all_variables()
-                
+
 with tf.Session() as sess:
     sess.run(init_op)
-                
+
     for epoch in range(train_epoch_number):
         total_loss = 0
         batch_number = mnist.train.num_examples / batch_size
 
         for i in range(batch_size):
-          # Train
-          batch_xs, batch_ys = mnist.train.next_batch(batch_size)
-          sess.run(train_op, feed_dict={x: batch_xs, y: batch_ys})
-          total_loss += sess.run(loss, feed_dict={x: batch_xs, y: batch_ys})
-                
-        # Print the loss
+            # Train
+            batch_xs, batch_ys = mnist.train.next_batch(batch_size)
+            sess.run(train_op, feed_dict={x: batch_xs, y: batch_ys})
+            total_loss += sess.run(loss, feed_dict={x: batch_xs, y: batch_ys})
+
+            # Print the loss
         if epoch % display_interval == 0:
-                print("Epoch: {}, loss: {}".format(epoch, total_loss))
+            print("Epoch: {}, loss: {}".format(epoch, total_loss))
