@@ -12,7 +12,7 @@ X = tf.placeholder("float")
 Y = tf.placeholder("float")
 w = tf.Variable(0.0, name="weight")
 b = tf.Variable(0.0, name="bias")
-loss = tf.square(Y - tf.mul(X, w) - b)
+loss = tf.square(Y - X * w - b)
 train_op = tf.train.GradientDescentOptimizer(0.01).minimize(loss)
 
 # Create session to run
