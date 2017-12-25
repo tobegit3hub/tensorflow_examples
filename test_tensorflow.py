@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import tensorflow as tf
 import numpy as np
+import tensorflow as tf
 
 train_X = np.linspace(-1, 1, 100)
 train_Y = 2 * train_X + np.random.randn(*train_X.shape) * 0.33 + 10

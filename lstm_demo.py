@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 
-import tensorflow as tf
 import numpy as np
-
+import tensorflow as tf
+from tensorflow.examples.tutorials.mnist import input_data
 from tensorflow.python.ops import rnn, rnn_cell
 
 print("Start to download and extract mnist data")
-from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
 # Parameters

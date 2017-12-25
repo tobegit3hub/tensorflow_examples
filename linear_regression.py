@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import tensorflow as tf
 import numpy as np
+import tensorflow as tf
 
 # Prepare train data
 train_X = np.linspace(-1, 1, 100)

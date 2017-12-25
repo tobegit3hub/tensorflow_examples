@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 
-from __future__ import division, print_function, absolute_import
+from __future__ import absolute_import, division, print_function
 
-import tensorflow as tf
-import numpy as np
 import matplotlib.pyplot as plt
-
+import numpy as np
+import tensorflow as tf
 # Import MINST data
 from tensorflow.examples.tutorials.mnist import input_data
+
 mnist = input_data.read_data_sets("./mnist/", one_hot=True)
 
 # Parameters

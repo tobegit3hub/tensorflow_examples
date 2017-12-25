@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-import tensorflow as tf
 import time
+
+import tensorflow as tf
 
 var1 = tf.Variable(0.0, name="var1")
 init_op = tf.initialize_all_variables()

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import tensorflow as tf
 import numpy as np
+import tensorflow as tf
 
 # 1:1 3:0.7 7:2.5
 # 0:1.3 3:0 8:2.8

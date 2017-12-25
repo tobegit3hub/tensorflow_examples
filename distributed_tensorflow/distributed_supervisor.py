@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import tensorflow as tf
 import numpy as np
+import tensorflow as tf
 
 # Flags for defining the tf.train.ClusterSpec
 tf.app.flags.DEFINE_string("ps_hosts", "",
