@@ -2,17 +2,98 @@
 # -*- coding: utf-8 -*-
 
 import json
+import logging
+import os
 
 import keras
+import tensorflow as tf
+from keras import backend as K
 from keras.layers.convolutional import Conv2D, MaxPooling2D
 from keras.layers.core import Activation, Dense, Dropout
 from keras.optimizers import SGD
+from tensorflow.python.util import compat
+
+
+def build_model():
+  model = keras.models.Sequential()
+
+  model.add(Dense(10, input_shape=(784, )))
+  model.add(Activation("softmax"))
+
+  return model
+
+
+def build_dnn_model():
+  input_size = 784
+  output_size = 10
+
+  model = keras.models.Sequential()
+
+  model.add(Dense(128, input_shape=(input_size, )))
+  model.add(Activation("relu"))
+  #model.add(Dropout(0.5))
+
+  model.add(Dense(64))
+  model.add(Activation("relu"))
+  #model.add(Dropout(0.5))
+
+  model.add(Dense(32))
+  model.add(Activation("relu"))
+  #model.add(Dropout(0.5))
+
+  model.add(Dense(output_size))
+  model.add(Activation("softmax"))
+
+  return model
+
+
+def save_graph(model):
+  model_json_string = model.to_json()
+  model_json = json.loads(model_json_string)
+
+  graph_filename = "graph.json"
+  with open(graph_filename, "w") as f:
+    json.dump(model_json, f)
+
+
+def load_graph_from_file():
+  graph_filename = "graph.json"
+  with open(graph_filename) as f:
+    model_json = json.load(f)
+
+  model_json_string = json.dumps(model_json)
+  model = keras.models.model_from_json(model_json_string)
+
+  return model
+
+
+def export_savedmodel(model):
+  print("input: {}, output: {}".format(model.input, model.output))
+  model_signature = tf.saved_model.signature_def_utils.predict_signature_def(
+      inputs={'input': model.input}, outputs={'output': model.output})
+
+  model_path = "model"
+  model_version = 1
+  export_path = os.path.join(
+      compat.as_bytes(model_path), compat.as_bytes(str(model_version)))
+  logging.info("Export the model to {}".format(export_path))
+
+  builder = tf.saved_model.builder.SavedModelBuilder(export_path)
+  builder.add_meta_graph_and_variables(
+      sess=K.get_session(),
+      tags=[tf.saved_model.tag_constants.SERVING],
+      clear_devices=True,
+      signature_def_map={
+          tf.saved_model.signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY:
+          model_signature
+      })
+  builder.save()
 
 
 def main():
   # Define hyper-parameters
   OUTPUT_CLASS = 10
-  EPOCH_NUMBER = 10
+  EPOCH_NUMBER = 3
   BATCH_SIZE = 128
   VERBOSE = 1
   OPTIMIZER = SGD()
@@ -57,6 +138,8 @@ def main():
 
   model.save_weights(weights_filename)
 
+  export_savedmodel(model)
+
   # Make prediction
   metrics = model.evaluate(X_test, Y_test, verbose=VERBOSE)
   test_loss = metrics[0]
@@ -64,56 +147,6 @@ def main():
   print("Accuracy: {}".format(test_accuracy))
 
   return test_accuracy
-
-
-def save_graph(model):
-  model_json_string = model.to_json()
-  model_json = json.loads(model_json_string)
-
-  graph_filename = "graph.json"
-  with open(graph_filename, "w") as f:
-    json.dump(model_json, f)
-
-
-def load_graph_from_file():
-  graph_filename = "graph.json"
-  with open(graph_filename) as f:
-    model_json = json.load(f)
-
-  model_json_string = json.dumps(model_json)
-  model = keras.models.model_from_json(model_json_string)
-
-  return model
-
-
-def build_model():
-  model = keras.models.Sequential()
-
-  model.add(Dense(10, input_shape=(784, )))
-  model.add(Activation("softmax"))
-
-  return model
-
-
-def build_dnn_model():
-  model = keras.models.Sequential()
-
-  model.add(Dense(128, input_shape=(784, )))
-  model.add(Activation("relu"))
-  model.add(Dropout(0.5))
-
-  model.add(Dense(64))
-  model.add(Activation("relu"))
-  model.add(Dropout(0.5))
-
-  model.add(Dense(32))
-  model.add(Activation("relu"))
-  model.add(Dropout(0.5))
-
-  model.add(Dense(10))
-  model.add(Activation("softmax"))
-
-  return model
 
 
 if __name__ == "__main__":
