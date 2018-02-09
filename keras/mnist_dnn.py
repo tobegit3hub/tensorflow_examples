@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import json
+
 import keras
 from keras.layers.convolutional import Conv2D, MaxPooling2D
 from keras.layers.core import Activation, Dense, Dropout
@@ -30,19 +32,18 @@ def main():
   Y_train = keras.utils.np_utils.to_categorical(Y_train, OUTPUT_CLASS)
   Y_test = keras.utils.np_utils.to_categorical(Y_test, OUTPUT_CLASS)
 
-  # Build model
-  # model = build_model()
+  # Build or load model
   model = build_dnn_model()
-  model_json = model.to_json()
-  print("Model json: {}".format(model_json))
-  # model.save("./mnist_dnn_model.h5")
-  # keras.models.model_from_json()
-  # keras.models.load_model()
+  #model = load_graph_from_file()
+
+  save_graph(model)
+
   # keras.callbacks.TensorBoard(log_dir="./tensorboard", histogram_freq=0, write_grads=True, write_images=False)
   model.summary()
   model.compile(loss=LOSS_TYPE, optimizer=OPTIMIZER, metrics=["accuracy"])
 
-  # Train model
+  # Train or load variables
+
   model.fit(
       X_train,
       Y_train,
@@ -51,6 +52,11 @@ def main():
       validation_split=VALIDATION_SPLIT,
       verbose=VERBOSE)
 
+  weights_filename = "model.h5"
+  #model.load_weights(weights_filename)
+
+  model.save_weights(weights_filename)
+
   # Make prediction
   metrics = model.evaluate(X_test, Y_test, verbose=VERBOSE)
   test_loss = metrics[0]
@@ -58,6 +64,26 @@ def main():
   print("Accuracy: {}".format(test_accuracy))
 
   return test_accuracy
+
+
+def save_graph(model):
+  model_json_string = model.to_json()
+  model_json = json.loads(model_json_string)
+
+  graph_filename = "graph.json"
+  with open(graph_filename, "w") as f:
+    json.dump(model_json, f)
+
+
+def load_graph_from_file():
+  graph_filename = "graph.json"
+  with open(graph_filename) as f:
+    model_json = json.load(f)
+
+  model_json_string = json.dumps(model_json)
+  model = keras.models.model_from_json(model_json_string)
+
+  return model
 
 
 def build_model():
