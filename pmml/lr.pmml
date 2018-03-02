@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<PMML version="4.3" xmlns="http://www.dmg.org/PMML-4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_3 http://www.dmg.org/pmml/v4-3/pmml-4-3.xsd">
+ <Header copyright="Copyright (c) 2017 liaotuo" description="Generalized Linear Regression Model">
+  <Extension name="user" value="liaotuo" extender="Rattle/PMML"/>
+  <Application name="Rattle/PMML" version="1.4"/>
+  <Timestamp>2017-07-11 13:18:36</Timestamp>
+ </Header>
+ <DataDictionary numberOfFields="4">
+  <DataField name="am" optype="continuous" dataType="double"/>
+  <DataField name="cyl" optype="continuous" dataType="double"/>
+  <DataField name="hp" optype="continuous" dataType="double"/>
+  <DataField name="wt" optype="continuous" dataType="double"/>
+ </DataDictionary>
+ <GeneralRegressionModel modelName="General_Regression_Model" modelType="generalizedLinear" functionName="regression" algorithmName="glm" distribution="binomial" linkFunction="logit">
+  <MiningSchema>
+   <MiningField name="am" usageType="predicted"/>
+   <MiningField name="cyl" usageType="active"/>
+   <MiningField name="hp" usageType="active"/>
+   <MiningField name="wt" usageType="active"/>
+  </MiningSchema>
+  <Output>
+   <OutputField name="Predicted_am" feature="predictedValue"/>
+  </Output>
+  <ParameterList>
+   <Parameter name="p0" label="(Intercept)"/>
+   <Parameter name="p1" label="cyl"/>
+   <Parameter name="p2" label="hp"/>
+   <Parameter name="p3" label="wt"/>
+  </ParameterList>
+  <FactorList/>
+  <CovariateList>
+   <Predictor name="cyl"/>
+   <Predictor name="hp"/>
+   <Predictor name="wt"/>
+  </CovariateList>
+  <PPMatrix>
+   <PPCell value="1" predictorName="cyl" parameterName="p1"/>
+   <PPCell value="1" predictorName="hp" parameterName="p2"/>
+   <PPCell value="1" predictorName="wt" parameterName="p3"/>
+  </PPMatrix>
+  <ParamMatrix>
+   <PCell parameterName="p0" df="1" beta="19.7028827927103"/>
+   <PCell parameterName="p1" df="1" beta="0.487597975045672"/>
+   <PCell parameterName="p2" df="1" beta="0.0325916758086386"/>
+   <PCell parameterName="p3" df="1" beta="-9.14947126999654"/>
+  </ParamMatrix>
+ </GeneralRegressionModel>
+</PMML>
