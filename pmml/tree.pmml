@@ -1,0 +1,20 @@
+<Node id="0">
+    <Node id="1">
+        <SimplePredicate field="section_num" operator="lessOrEqual" value="6.5"/>
+        <Node id="3" score="2">
+            <SimplePredicate field="picitem_num" operator="lessOrEqual" value="15.5"/>
+        </Node>
+        <Node id="4" score="3">
+            <SimplePredicate field="picitem_num" operator="greaterThan" value="15.5"/>
+        </Node>
+    </Node>
+    <Node id="2">
+        <SimplePredicate field="section_num" operator="greaterThan" value="6.5"/>
+        <Node id="5" score="4">
+            <SimplePredicate field="text_len" operator="lessOrEqual" value="895.5"/>
+        </Node>
+        <Node id="6" score="5">
+            <SimplePredicate field="text_len" operator="greaterThan" value="895.5"/>
+        </Node>
+    </Node>
+</Node>
